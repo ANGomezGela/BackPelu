@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/erabiltzaileak") // Ruta base para este controlador
+@RequestMapping("/api/erabiltzaileak") 
 public class Erabiltzaileak_controller {
 
     private final Erabiltzaileak_service erabiltzaileakService;
@@ -17,7 +17,7 @@ public class Erabiltzaileak_controller {
         this.erabiltzaileakService = erabiltzaileakService;
     }
 
-    // Obtener todos los usuarios
+    // Solo necesitamos obtener todos los usuarios
     @GetMapping
     public List<Erabiltzaileak> getAll() {
         return erabiltzaileakService.findAll();
