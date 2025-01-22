@@ -13,16 +13,16 @@ public class Hitzorduak {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id; // Clave primaria autogenerada
 
-    @Column(name = "eserlekua", nullable = false)
+    @Column(name = "eserlekua", nullable = true)
     private Integer eserlekua; // Número de asiento
 
     @Column(name = "data", nullable = false)
     private LocalDate data; // Fecha del turno
 
-    @Column(name = "hasiera_ordua", nullable = false)
+    @Column(name = "hasiera_ordua")
     private LocalTime hasieraOrdua; // Hora de inicio
 
-    @Column(name = "amaiera_ordua", nullable = false)
+    @Column(name = "amaiera_ordua")
     private LocalTime amaieraOrdua; // Hora de fin
 
     @Column(name = "hasiera_ordua_erreala")
@@ -40,7 +40,7 @@ public class Hitzorduak {
     @Column(name = "deskribapena", length = 250)
     private String deskribapena; // Descripción opcional
 
-    @Column(name = "etxekoa", length = 1, nullable = false)
+    @Column(name = "etxekoa", length = 1, nullable = true)
     private String etxekoa; // 'E' (Etxeko) o 'K' (Kanpoko)
 
     @Column(name = "prezio_totala")
