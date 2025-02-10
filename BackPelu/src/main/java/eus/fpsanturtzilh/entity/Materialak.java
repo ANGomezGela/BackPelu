@@ -3,6 +3,7 @@ package eus.fpsanturtzilh.entity;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Entity
@@ -11,6 +12,8 @@ import java.time.LocalDateTime;
 @NoArgsConstructor 
 @AllArgsConstructor 
 @Builder 
+@Getter
+@Setter
 public class Materialak {
 
     @Id

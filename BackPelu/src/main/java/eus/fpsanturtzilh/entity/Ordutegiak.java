@@ -13,6 +13,8 @@ import java.time.LocalTime;
 @NoArgsConstructor 
 @AllArgsConstructor 
 @Builder 
+@Getter
+@Setter
 public class Ordutegiak {
 
     @Id

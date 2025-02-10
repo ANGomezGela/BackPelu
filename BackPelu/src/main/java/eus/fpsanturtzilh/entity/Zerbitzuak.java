@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Entity
@@ -12,6 +13,8 @@ import java.time.LocalDateTime;
 @NoArgsConstructor 
 @AllArgsConstructor 
 @Builder 
+@Getter
+@Setter
 public class Zerbitzuak {
 
     @Id

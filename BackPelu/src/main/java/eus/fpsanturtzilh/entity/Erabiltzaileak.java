@@ -10,7 +10,9 @@ import java.time.LocalDateTime;
 @Data 
 @NoArgsConstructor 
 @AllArgsConstructor 
-@Builder 
+@Builder
+@Getter
+@Setter
 public class Erabiltzaileak {
 
     @Id
@@ -30,5 +32,5 @@ public class Erabiltzaileak {
     private LocalDateTime eguneratzeData; 
 
     @Column(name = "ezabatze_data")
-    private LocalDateTime ezabatzeData; 
+    private LocalDateTime ezabatzeData;
 }
