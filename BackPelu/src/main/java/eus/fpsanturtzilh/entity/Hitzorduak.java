@@ -71,4 +71,6 @@ public class Hitzorduak {
 
     @Column(name = "ezabatze_data")
     private LocalDateTime ezabatzeData; // Fecha de eliminación lógica del turno
+
+
 }

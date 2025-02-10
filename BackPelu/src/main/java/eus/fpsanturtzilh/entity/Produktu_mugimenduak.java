@@ -11,7 +11,7 @@ import java.time.LocalDateTime;
 @Data 
 @NoArgsConstructor 
 @AllArgsConstructor 
-@Builder 
+@Builder
 @Getter
 @Setter
 public class Produktu_mugimenduak {

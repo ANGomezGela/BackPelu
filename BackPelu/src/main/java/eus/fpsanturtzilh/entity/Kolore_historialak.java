@@ -1,7 +1,12 @@
 package eus.fpsanturtzilh.entity;
 
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -11,7 +16,7 @@ import java.time.LocalDateTime;
 @Data 
 @NoArgsConstructor 
 @AllArgsConstructor 
-@Builder 
+@Builder
 @Getter
 @Setter
 public class Kolore_historialak {
@@ -47,5 +52,6 @@ public class Kolore_historialak {
     private LocalDateTime eguneratzeData; 
 
     @Column(name = "ezabatze_data")
-    private LocalDateTime ezabatzeData; 
+    private LocalDateTime ezabatzeData; // Fecha de eliminación lógica del registro
+
 }

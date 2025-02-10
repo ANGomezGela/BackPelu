@@ -1,7 +1,12 @@
 package eus.fpsanturtzilh.entity;
 
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -10,8 +15,8 @@ import java.time.LocalDateTime;
 @Table(name = "langileak")
 @Data 
 @NoArgsConstructor 
-@AllArgsConstructor
-@Builder 
+@AllArgsConstructor 
+@Builder
 @Getter
 @Setter
 public class Langileak {
