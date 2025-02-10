@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/taldeak")
+@RequestMapping("/taldeak")
 @CrossOrigin(origins = "*") // Configurar para permitir solicitudes desde el frontend
 public class Taldeak_controller {
 

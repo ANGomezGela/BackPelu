@@ -16,7 +16,7 @@ public class Zerbitzuak {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id; 
+    private Long id; 
 
     @Column(name = "izena", length = 100, nullable = false)
     private String izena; 

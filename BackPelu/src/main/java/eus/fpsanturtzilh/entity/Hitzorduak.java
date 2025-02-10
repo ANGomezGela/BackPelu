@@ -19,10 +19,10 @@ public class Hitzorduak {
     @Column(name = "data", nullable = false)
     private LocalDate data; // Fecha del turno
 
-    @Column(name = "hasiera_ordua")
+    @Column(name = "hasiera_ordua", nullable=true)
     private LocalTime hasieraOrdua; // Hora de inicio
 
-    @Column(name = "amaiera_ordua")
+    @Column(name = "amaiera_ordua", nullable=true)
     private LocalTime amaieraOrdua; // Hora de fin
 
     @Column(name = "hasiera_ordua_erreala")

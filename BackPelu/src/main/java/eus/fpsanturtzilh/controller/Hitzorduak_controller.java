@@ -5,6 +5,7 @@ import eus.fpsanturtzilh.service.Hitzorduak_service;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.math.BigDecimal;
 import java.time.LocalTime;
 import java.util.List;
 import java.util.Map;
@@ -21,24 +22,34 @@ public class Hitzorduak_controller {
     }
 
     @GetMapping
-    public List<Hitzorduak> getAll() {
-        return service.getAllHitzorduak();
+    public ResponseEntity<List<Hitzorduak>> getAll() {
+        return ResponseEntity.ok(service.getAllHitzorduak());
     }
 
     @PostMapping
-    public ResponseEntity<Hitzorduak> create(@RequestBody Hitzorduak hitzordua) {
-        if (hitzordua.getAmaieraOrdua() == null) {
-            System.out.println("La hora de fin es nula, se asignará un valor predeterminado.");
-            hitzordua.setAmaieraOrdua(null);  
+    public ResponseEntity<?> create(@RequestBody Hitzorduak hitzordua) {
+        if (hitzordua.getIzena() == null || hitzordua.getIzena().isEmpty()) {
+            return ResponseEntity.badRequest().body("El campo 'izena' es obligatorio.");
         }
+        if (hitzordua.getData() == null) {
+            return ResponseEntity.badRequest().body("El campo 'data' es obligatorio.");
+        }
+        if (hitzordua.getHasieraOrdua() == null) {
+            return ResponseEntity.badRequest().body("El campo 'hasieraOrdua' es obligatorio.");
+        }
+
+        // Configurar valores por defecto si están en null
+        hitzordua.setAmaieraOrdua(hitzordua.getAmaieraOrdua() != null ? hitzordua.getAmaieraOrdua() : null);
+        hitzordua.setEserlekua(hitzordua.getEserlekua() != null ? hitzordua.getEserlekua() : 0);
+        hitzordua.setPrezioTotala(hitzordua.getPrezioTotala() != null ? hitzordua.getPrezioTotala() : BigDecimal.ZERO);
+
         Hitzorduak newHitzordua = service.addHitzordua(hitzordua);
         return ResponseEntity.ok(newHitzordua);
     }
 
-    
     @PutMapping("/{id}")
-    public ResponseEntity<Hitzorduak> update(@PathVariable Integer id, @RequestBody Hitzorduak updatedHitzordua) {
-    	Hitzorduak existingHitzordua = service.getHitzorduakById(id);
+    public ResponseEntity<?> update(@PathVariable Integer id, @RequestBody Hitzorduak updatedHitzordua) {
+        Hitzorduak existingHitzordua = service.getHitzorduakById(id);
 
         if (existingHitzordua == null) {
             return ResponseEntity.notFound().build();
@@ -56,23 +67,26 @@ public class Hitzorduak_controller {
         service.addHitzordua(existingHitzordua);
         return ResponseEntity.ok(existingHitzordua);
     }
-    
+
     @PatchMapping("/{id}/actualizar-hora-real")
-    public ResponseEntity<Hitzorduak> actualizarHoraReal(@PathVariable Integer id, @RequestBody Hitzorduak updatedHitzordua) {
+    public ResponseEntity<?> actualizarHoraReal(@PathVariable Integer id, @RequestBody Map<String, String> payload) {
         Hitzorduak existingHitzordua = service.getHitzorduakById(id);
 
         if (existingHitzordua == null) {
             return ResponseEntity.notFound().build();
         }
 
-        existingHitzordua.setHasieraOrduaErreala(updatedHitzordua.getHasieraOrduaErreala());
-        service.addHitzordua(existingHitzordua);
-        
+        String horaRealStr = payload.get("hasieraOrduaErreala");
+        if (horaRealStr != null) {
+            existingHitzordua.setHasieraOrduaErreala(LocalTime.parse(horaRealStr));
+            service.addHitzordua(existingHitzordua);
+        }
+
         return ResponseEntity.ok(existingHitzordua);
     }
-    
+
     @PatchMapping("/{id}/actualizar-hora-final")
-    public ResponseEntity<Hitzorduak> actualizarHoraFinal(@PathVariable Integer id, @RequestBody Map<String, String> payload) {
+    public ResponseEntity<?> actualizarHoraFinal(@PathVariable Integer id, @RequestBody Map<String, String> payload) {
         Hitzorduak existingHitzordua = service.getHitzorduakById(id);
 
         if (existingHitzordua == null) {
@@ -87,6 +101,4 @@ public class Hitzorduak_controller {
 
         return ResponseEntity.ok(existingHitzordua);
     }
-
-
 }

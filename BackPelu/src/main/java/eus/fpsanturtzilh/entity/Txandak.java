@@ -16,7 +16,7 @@ public class Txandak {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id; 
+    private Long id; 
 
     @Column(name = "mota", length = 1, nullable = false)
     private String mota; 
