@@ -61,7 +61,7 @@ public class Hitzorduak_controller {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<?> update(@PathVariable Integer id, @RequestBody Hitzorduak updatedHitzordua) {
+    public ResponseEntity<?> update(@PathVariable Long id, @RequestBody Hitzorduak updatedHitzordua) {
         Hitzorduak existingHitzordua = service.getHitzorduakById(id);
 
         if (existingHitzordua == null) {
@@ -82,7 +82,7 @@ public class Hitzorduak_controller {
     }
 
     @PatchMapping("/{id}/actualizar-hora-real")
-    public ResponseEntity<?> actualizarHoraReal(@PathVariable Integer id, @RequestBody Map<String, String> payload) {
+    public ResponseEntity<?> actualizarHoraReal(@PathVariable Long id, @RequestBody Map<String, String> payload) {
         Hitzorduak existingHitzordua = service.getHitzorduakById(id);
 
         if (existingHitzordua == null) {
@@ -99,7 +99,7 @@ public class Hitzorduak_controller {
     }
 
     @PatchMapping("/{id}/actualizar-hora-final")
-    public ResponseEntity<?> actualizarHoraFinal(@PathVariable Integer id, @RequestBody Map<String, String> payload) {
+    public ResponseEntity<?> actualizarHoraFinal(@PathVariable Long id, @RequestBody Map<String, String> payload) {
         Hitzorduak existingHitzordua = service.getHitzorduakById(id);
 
         if (existingHitzordua == null) {
