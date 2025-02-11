@@ -7,4 +7,6 @@ import eus.fpsanturtzilh.entity.Bezero_fitxak;
 
 @Repository
 public interface BezeroFitxakRepository extends JpaRepository<Bezero_fitxak, Long> {
+	
+	
 }

@@ -12,11 +12,11 @@ import eus.fpsanturtzilh.service.BezeroFitxakService;
 @RestController
 @RequestMapping("/bezeroak")
 @CrossOrigin(origins = "http://localhost:8100")
-
 public class BezeroFitxakController {
     
     @Autowired
     private BezeroFitxakService bezeroFitxakService;
+
 
     @GetMapping
     public List<Bezero_fitxak> getAllBezeroak() {
@@ -32,6 +32,8 @@ public class BezeroFitxakController {
     public Optional<Bezero_fitxak> getBezeroaById(@PathVariable Long id) {
         return bezeroFitxakService.getById(id);
     }
+
+
 
     @PutMapping("/{id}")
     public Bezero_fitxak updateBezeroa(@PathVariable Long id, @RequestBody Bezero_fitxak request) {

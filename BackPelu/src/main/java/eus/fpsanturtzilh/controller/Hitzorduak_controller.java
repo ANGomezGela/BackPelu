@@ -6,6 +6,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
 import java.util.Map;
@@ -19,6 +20,18 @@ public class Hitzorduak_controller {
 
     public Hitzorduak_controller(Hitzorduak_service service) {
         this.service = service;
+    }
+    
+
+    @GetMapping("/fecha/{fecha}")
+    public ResponseEntity<List<Hitzorduak>> getByFecha(@PathVariable String fecha) {
+        LocalDate parsedFecha = LocalDate.parse(fecha);
+        return ResponseEntity.ok(service.getHitzorduakByFecha(parsedFecha));
+    }
+
+    @GetMapping("/count-by-fecha")
+    public ResponseEntity<List<Map<String, Object>>> getCountByFecha() {
+        return ResponseEntity.ok(service.getCountByFecha());
     }
 
     @GetMapping

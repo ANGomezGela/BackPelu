@@ -2,6 +2,7 @@ package eus.fpsanturtzilh.service;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +15,7 @@ import eus.fpsanturtzilh.repository.BezeroFitxakRepository;
 public class BezeroFitxakService {
     @Autowired
     private BezeroFitxakRepository bezeroFitxakRepository;
+
     
     // Obtener todos los clientes
     public ArrayList<Bezero_fitxak> getBezeroak(){
@@ -25,6 +27,7 @@ public class BezeroFitxakService {
         bezeroa.setSortzeData(LocalDateTime.now());
         return bezeroFitxakRepository.save(bezeroa);
     }
+    
     
     // Buscar cliente por ID
     public Optional<Bezero_fitxak> getById(Long id){
