@@ -1,5 +1,6 @@
 package eus.fpsanturtzilh.controller;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -22,6 +23,12 @@ public class TxandakController {
     public List<Txandak> getAllTxandak() {
         return txandakService.getTxandak();
     }
+    @GetMapping("/fecha/{fecha}")
+    public List<Txandak> getTurnosPorFecha(@PathVariable String fecha) {
+        LocalDate fechaConsulta = LocalDate.parse(fecha);
+        return txandakService.getTurnosDelDia(fechaConsulta);
+    }
+
 
     @PostMapping
     public Txandak addTxanda(@RequestBody Txandak txanda) {

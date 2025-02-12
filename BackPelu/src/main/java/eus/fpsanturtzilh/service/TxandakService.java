@@ -1,7 +1,9 @@
 package eus.fpsanturtzilh.service;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +27,16 @@ public class TxandakService {
         txanda.setSortzeData(LocalDateTime.now());
         return txandakRepository.save(txanda);
     }
+    
+    // Obtener los turnos del día actual
+    public List<Txandak> getTurnosDelDia() {
+        LocalDate today = LocalDate.now();
+        return txandakRepository.findByData(today);
+    }
+    public List<Txandak> getTurnosDelDia(LocalDate fecha) {
+        return txandakRepository.buscarTurnosPorFecha(fecha);
+    }
+
     
     // Buscar turno por ID
     public Optional<Txandak> getById(Long id){
