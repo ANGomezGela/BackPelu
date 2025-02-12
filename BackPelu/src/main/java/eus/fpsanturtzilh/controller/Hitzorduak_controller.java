@@ -38,6 +38,19 @@ public class Hitzorduak_controller {
     public ResponseEntity<List<Hitzorduak>> getAll() {
         return ResponseEntity.ok(service.getAllHitzorduak());
     }
+    
+    //APP C# CHAT
+    @GetMapping("/hoy")
+    public ResponseEntity<List<Hitzorduak>> getHitzorduakHoy() {
+        LocalDate hoy = LocalDate.now();
+        List<Hitzorduak> hitzorduakHoy = service.getHitzorduakByFechaHoy(hoy);
+
+        if (hitzorduakHoy.isEmpty()) {
+            return ResponseEntity.noContent().build();
+        }
+
+        return ResponseEntity.ok(hitzorduakHoy);
+    }
 
     @PostMapping
     public ResponseEntity<?> create(@RequestBody Hitzorduak hitzordua) {

@@ -1,5 +1,6 @@
 package eus.fpsanturtzilh.service;
 
+import java.util.stream.Collectors;
 import eus.fpsanturtzilh.entity.Hitzorduak;
 import eus.fpsanturtzilh.repository.Hitzorduak_repository;
 import org.springframework.stereotype.Service;
@@ -36,5 +37,12 @@ public class Hitzorduak_service {
 
     public Hitzorduak getHitzorduakById(Long id) {
         return repository.findById(id).orElse(null);
+    }
+    
+    public List<Hitzorduak> getHitzorduakByFechaHoy(LocalDate fecha) {
+        return getAllHitzorduak()
+                .stream()
+                .filter(h -> h.getData().equals(fecha))
+                .collect(Collectors.toList());
     }
 }
