@@ -49,6 +49,16 @@ public class Ticket_lerroak_service {
             throw new EntityNotFoundException("Ticket_lerroak no encontrado con id: " + id);
         }
     }
+    public boolean softDeleteLerro(Long id) {
+        Optional<Ticket_lerroak> optionalTicket = ticket_lerroak_repository.findById(id);
+        if (optionalTicket.isPresent()) {
+            Ticket_lerroak ticket = optionalTicket.get();
+            ticket.setEzabatzeData(LocalDateTime.now());  // Marca como eliminado
+            ticket_lerroak_repository.save(ticket);
+            return true;
+        }
+        return false;
+    }
 	
 	//Borrar
 	public Boolean deleteLerro_service (Long id) {

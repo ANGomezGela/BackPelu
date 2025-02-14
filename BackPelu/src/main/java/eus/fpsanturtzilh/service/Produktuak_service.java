@@ -74,16 +74,19 @@ public class Produktuak_service {
 
 	    return produktuak_repository.save(produ);
 	}
+	
+    public boolean softDeleteProduktu(Long id) {
+        Optional<Produktuak> optionalProduktu = produktuak_repository.findById(id);
+        if (optionalProduktu.isPresent()) {
+            Produktuak produ = optionalProduktu.get();
+            produ.setEzabatzeData(LocalDateTime.now());  // Marca como eliminado
+            produktuak_repository.save(produ);
+            return true;
+        }
+        return false;
+    }
 
-	//Borrar
-	public Boolean deleteProduktu (Long id) {
-		try {
-			produktuak_repository.deleteById(id);
-			return true;
-		}catch(Exception e) {
-			return false;
-		}
-	}
+
     
 	
 }

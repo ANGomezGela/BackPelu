@@ -4,6 +4,8 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import eus.fpsanturtzilh.entity.Ordutegiak;
@@ -36,5 +38,15 @@ public class Ordutegiak_controller {
     @PutMapping("/{id}")
     public Ordutegiak updateOrdutegia(@PathVariable Long id, @RequestBody Ordutegiak request) {
         return ordutegiakService.updateById(request, id);
+    }
+    
+    @DeleteMapping("/{id}")
+    public ResponseEntity<String> softDeleteOrdutegiak(@PathVariable Long id) {
+        boolean deleted = ordutegiakService.softDeleteOrdutegiak(id);
+        if (deleted) {
+            return ResponseEntity.ok("Ordutegiak with id: " + id + " marked as deleted.");
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Ordutegiak not found.");
+        }
     }
 }

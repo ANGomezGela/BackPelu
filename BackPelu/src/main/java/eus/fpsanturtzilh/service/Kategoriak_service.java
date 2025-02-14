@@ -35,7 +35,6 @@ public class Kategoriak_service {
 	        .orElseThrow(() -> new RuntimeException("Categoría no encontrada con ID: " + id));
 
 	    kategoria.setIzena(request.getIzena());
-	    kategoria.setMota(request.getMota());
 	    
 	    // No cambiar `sortzeData`, mantenerla como está
 	    // Actualiza `eguneratzeData` automáticamente a la fecha actual
@@ -48,14 +47,17 @@ public class Kategoriak_service {
 
 	    return kategoriak_repository.save(kategoria);
 	}
+	
+    public boolean softDeleteKategoria(Long id) {
+        Optional<Kategoriak> kategoriaOptional = kategoriak_repository.findById(id);
+        if (kategoriaOptional.isPresent()) {
+            Kategoriak kategoria = kategoriaOptional.get();
+            kategoria.setEzabatzeData(LocalDateTime.now());  // Marcar como eliminada
+            kategoriak_repository.save(kategoria);
+            return true;
+        }
+        return false;
+    }
 
-	//Borrar
-	public Boolean deleteKategoria (Long id) {
-		try {
-			kategoriak_repository.deleteById(id);
-			return true;
-		}catch(Exception e) {
-			return false;
-		}
-	}
+
 }

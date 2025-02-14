@@ -4,6 +4,8 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import eus.fpsanturtzilh.entity.Materialak;
@@ -42,10 +44,16 @@ public class MaterialakController {
     public Materialak updateMateriala(@PathVariable Long id, @RequestBody Materialak request) {
         return materialakService.updateById(request, id);
     }
-
+    // Eliminación lógica: No borra, solo marca con fecha actual
     @DeleteMapping("/{id}")
-    public String deleteMateriala(@PathVariable Long id) {
-        boolean ok = materialakService.deleteMateriala(id);
-        return ok ? "Materiala with id: " + id + " Deleted" : "Error";
+    public ResponseEntity<String> softDeleteMateriala(@PathVariable Long id) {
+        boolean deleted = materialakService.softDeleteMateriala(id);
+        if (deleted) {
+            return ResponseEntity.ok("Materiala with id: " + id + " marked as deleted.");
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Materiala not found.");
+        }
     }
+
+
 }

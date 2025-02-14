@@ -10,6 +10,9 @@ import java.util.List;
 
 @Repository
 public interface TxandakRepository extends JpaRepository<Txandak, Long> {
+	
+    List<Txandak> findByEzabatzeDataIsNull();
+
 
     // Encuentra turnos por fecha (hoy)
     List<Txandak> findByData(LocalDate data);

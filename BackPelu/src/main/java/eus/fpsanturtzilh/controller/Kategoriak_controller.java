@@ -4,6 +4,8 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -45,10 +47,15 @@ public class Kategoriak_controller {
     public Kategoriak updateKategoria(@PathVariable Long id, @RequestBody Kategoriak request) {
         return kategoriak_service.updateById(request, id);
     }
+
     @DeleteMapping("/{id}")
-    public String deleteProduktu(@PathVariable Long id) {
-        boolean ok = kategoriak_service.deleteKategoria(id);
-        return ok ? "Product with id: " + id + " Deleted" : "Error";
+    public ResponseEntity<String> softDeleteKategoria(@PathVariable Long id) {
+        boolean deleted = kategoriak_service.softDeleteKategoria(id);
+        if (deleted) {
+            return ResponseEntity.ok("Kategoria with id: " + id + " marked as deleted.");
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Kategoria not found.");
+        }
     }
 
     

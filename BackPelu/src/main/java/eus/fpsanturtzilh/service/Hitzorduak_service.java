@@ -17,6 +17,7 @@ public class Hitzorduak_service {
     public Hitzorduak_service(Hitzorduak_repository repository) {
         this.repository = repository;
     }
+    
 
     public List<Hitzorduak> getAllHitzorduak() {
         return repository.findAll();
@@ -37,6 +38,16 @@ public class Hitzorduak_service {
 
     public Hitzorduak getHitzorduakById(Long id) {
         return repository.findById(id).orElse(null);
+    }
+    
+    public boolean softDeleteHitzordua(Long id) {
+        Hitzorduak hitzordua = getHitzorduakById(id);
+        if (hitzordua != null) {
+            hitzordua.setEzabatzeData(LocalDate.now());  // Marcar con la fecha de eliminación
+            repository.save(hitzordua);
+            return true;
+        }
+        return false;
     }
     
     public List<Hitzorduak> getHitzorduakByFechaHoy(LocalDate fecha) {

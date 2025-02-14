@@ -4,6 +4,8 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import eus.fpsanturtzilh.entity.Bezero_fitxak;
@@ -39,10 +41,16 @@ public class BezeroFitxakController {
     public Bezero_fitxak updateBezeroa(@PathVariable Long id, @RequestBody Bezero_fitxak request) {
         return bezeroFitxakService.updateById(request, id);
     }
-
+    
     @DeleteMapping("/{id}")
-    public String deleteBezeroa(@PathVariable Long id) {
-        boolean ok = bezeroFitxakService.deleteBezeroa(id);
-        return ok ? "Bezeroa with id: " + id + " Deleted" : "Error";
+    public ResponseEntity<String> softDeleteBezeroa(@PathVariable Long id) {
+        boolean ok = bezeroFitxakService.softDeleteBezeroa(id);
+        if (ok) {
+            return ResponseEntity.ok("Bezeroa with id: " + id + " marked as deleted");
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Bezeroa not found");
+        }
     }
+
+
 }

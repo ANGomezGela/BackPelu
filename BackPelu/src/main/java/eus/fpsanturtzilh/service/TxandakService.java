@@ -55,6 +55,16 @@ public class TxandakService {
         
         return txandakRepository.save(txanda);
     }
+    public boolean softDeleteTxanda(Long id) {
+        Optional<Txandak> optionalTxanda = txandakRepository.findById(id);
+        if (optionalTxanda.isPresent()) {
+            Txandak txanda = optionalTxanda.get();
+            txanda.setEzabatzeData(LocalDateTime.now());  // Marca como eliminado
+            txandakRepository.save(txanda);
+            return true;
+        }
+        return false;
+    }
     
     // Borrar turno
     public Boolean deleteTxanda(Long id) {

@@ -1,5 +1,6 @@
 package eus.fpsanturtzilh.service;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -48,13 +49,15 @@ public class BezeroFitxakService {
         return bezeroFitxakRepository.save(bezeroa);
     }
     
-    // Borrar cliente
-    public Boolean deleteBezeroa(Long id) {
-        try {
-            bezeroFitxakRepository.deleteById(id);
+    public boolean softDeleteBezeroa(Long id) {
+        Optional<Bezero_fitxak> bezeroaOptional = bezeroFitxakRepository.findById(id);
+        if (bezeroaOptional.isPresent()) {
+            Bezero_fitxak bezeroa = bezeroaOptional.get();
+            bezeroa.setEzabatzeData(LocalDate.now()); // Establece la fecha de eliminación
+            bezeroFitxakRepository.save(bezeroa); // Guarda los cambios en la BD
             return true;
-        } catch (Exception e) {
-            return false;
         }
+        return false;
     }
+    
 }

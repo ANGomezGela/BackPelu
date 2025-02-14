@@ -45,13 +45,16 @@ public class MaterialMaileguakService {
         return materialMaileguakRepository.save(materialMailegua);
     }
     
-    // Borrar préstamo de material
-    public Boolean deleteMaterialMailegua(Long id) {
-        try {
-            materialMaileguakRepository.deleteById(id);
+    public boolean softDeleteMaterialMailegua(Long id) {
+        Optional<Material_maileguak> optionalMaterialMailegua = materialMaileguakRepository.findById(id);
+        if (optionalMaterialMailegua.isPresent()) {
+            Material_maileguak materialMailegua = optionalMaterialMailegua.get();
+            materialMailegua.setEzabatzeData(LocalDateTime.now());  // Marca como eliminado
+            materialMaileguakRepository.save(materialMailegua);
             return true;
-        } catch (Exception e) {
-            return false;
         }
+        return false;
     }
+    
+
 }

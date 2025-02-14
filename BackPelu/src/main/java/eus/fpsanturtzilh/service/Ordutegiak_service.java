@@ -46,14 +46,17 @@ public class Ordutegiak_service {
         
         return ordutegiakRepository.save(ordutegiak);
     }
-	//Borrar
-	public Boolean deleteOrdutegiak (Long id) {
-		try {
-			ordutegiakRepository.deleteById(id);
-			return true;
-		}catch(Exception e) {
-			return false;
-		}
-	}
+    
+    public boolean softDeleteOrdutegiak(Long id) {
+        Optional<Ordutegiak> optionalOrdutegiak = ordutegiakRepository.findById(id);
+        if (optionalOrdutegiak.isPresent()) {
+            Ordutegiak ordutegiak = optionalOrdutegiak.get();
+            ordutegiak.setEzabatzeData(LocalDateTime.now());  // Marca como eliminado
+            ordutegiakRepository.save(ordutegiak);
+            return true;
+        }
+        return false;
+    }
+
     
 }

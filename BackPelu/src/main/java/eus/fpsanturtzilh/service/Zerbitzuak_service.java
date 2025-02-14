@@ -76,15 +76,17 @@ public class Zerbitzuak_service {
 		
 			}
 	
-	//Borrar
-	public Boolean deleteZerbitzuak (Long id) {
-		try {
-			zerbitzuak_repository.deleteById(id);
-			return true;
-		}catch(Exception e) {
-			return false;
-		}
-	}
+    public boolean softDeleteZerbitzuak(Long id) {
+        Optional<Zerbitzuak> optionalZerbitzuak = zerbitzuak_repository.findById(id);
+        if (optionalZerbitzuak.isPresent()) {
+            Zerbitzuak zerbitzuak = optionalZerbitzuak.get();
+            zerbitzuak.setEzabatzeData(LocalDateTime.now());  // Marca como eliminado
+            zerbitzuak_repository.save(zerbitzuak);
+            return true;
+        }
+        return false;
+    }
+
 	
 	
 
