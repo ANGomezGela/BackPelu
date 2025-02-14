@@ -18,8 +18,5 @@ public interface Hitzorduak_repository extends JpaRepository<Hitzorduak, Long> {
     List<Map<String, Object>> countByFecha();
     
     
-    List<Hitzorduak> findByEzabatzeDataIsNull();  
-
-    List<Hitzorduak> findByFechaAndEzabatzeDataIsNull(LocalDate fecha);
 
 }

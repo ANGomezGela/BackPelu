@@ -57,15 +57,6 @@ public class Ticket_lerroak_controller {
         }
     }
 	
-	@DeleteMapping(path = "/{id}")
-	public String deleteLerroById(@PathVariable("id") Long id) {
-		boolean ok = this.ticket_lerroak_service.deleteLerro_service(id);
-		if (ok = true) {
-			return "User with id: " + id + " Deleted";
-		} else {
-			return "Error";
-		}
-	}
 
 	
 }
