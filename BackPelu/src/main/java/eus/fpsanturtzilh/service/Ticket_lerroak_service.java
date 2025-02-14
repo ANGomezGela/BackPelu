@@ -60,14 +60,5 @@ public class Ticket_lerroak_service {
         return false;
     }
 	
-	//Borrar
-	public Boolean deleteLerro_service (Long id) {
-		try {
-			ticket_lerroak_repository.deleteById(id);
-			return true;
-		}catch(Exception e) {
-			return false;
-		}
-	}
 
 }

@@ -56,9 +56,4 @@ public class TxandakController {
         }
     }
 
-    @DeleteMapping("/{id}")
-    public String deleteTxanda(@PathVariable Long id) {
-        boolean ok = txandakService.deleteTxanda(id);
-        return ok ? "Txanda with id: " + id + " Deleted" : "Error";
-    }
 }

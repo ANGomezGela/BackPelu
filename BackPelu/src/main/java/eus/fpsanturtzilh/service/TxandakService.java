@@ -66,13 +66,4 @@ public class TxandakService {
         return false;
     }
     
-    // Borrar turno
-    public Boolean deleteTxanda(Long id) {
-        try {
-            txandakRepository.deleteById(id);
-            return true;
-        } catch (Exception e) {
-            return false;
-        }
-    }
 }
