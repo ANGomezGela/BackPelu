@@ -8,6 +8,7 @@ public class BackPeluApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(BackPeluApplication.class, args);
+		//Hau da Swagger: http://localhost:8080/swagger-ui/index.html#/
 	}
 
 }
