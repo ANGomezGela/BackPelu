@@ -44,16 +44,18 @@ public class Produktu_mugimenduak_service {
         
         return produktu_mugimenduak_repository.save(produ);
     }
+    public boolean softDeleteProduktuMugimenduak(Long id) {
+        Optional<Produktu_mugimenduak> optionalProduktuMugimenduak = produktu_mugimenduak_repository.findById(id);
+        if (optionalProduktuMugimenduak.isPresent()) {
+            Produktu_mugimenduak produktua = optionalProduktuMugimenduak.get();
+            produktua.setEzabatzeData(LocalDateTime.now());  // Marca como eliminado
+            produktu_mugimenduak_repository.save(produktua);
+            return true;
+        }
+        return false;
+    }
     
-	//Borrar
-	public Boolean deleteproduktu_Mugimenduak (Long id) {
-		try {
-			produktu_mugimenduak_repository.deleteById(id);
-			return true;
-		}catch(Exception e) {
-			return false;
-		}
-	}
+
     
 	
 }

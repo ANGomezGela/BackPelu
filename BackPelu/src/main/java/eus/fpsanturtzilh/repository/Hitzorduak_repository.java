@@ -17,5 +17,9 @@ public interface Hitzorduak_repository extends JpaRepository<Hitzorduak, Long> {
     @Query("SELECT h.data as fecha, COUNT(h) as cantidad FROM Hitzorduak h GROUP BY h.data ORDER BY h.data ASC")
     List<Map<String, Object>> countByFecha();
     
+    
+    List<Hitzorduak> findByEzabatzeDataIsNull();  
+
+    List<Hitzorduak> findByFechaAndEzabatzeDataIsNull(LocalDate fecha);
 
 }

@@ -3,6 +3,7 @@ package eus.fpsanturtzilh.entity;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Entity
@@ -38,5 +39,5 @@ public class Bezero_fitxak {
     private LocalDateTime eguneratzeData; 
 
     @Column(name = "ezabatze_data")
-    private LocalDateTime ezabatzeData;
+    private LocalDate ezabatzeData; 
 }

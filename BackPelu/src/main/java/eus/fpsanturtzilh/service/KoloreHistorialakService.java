@@ -6,6 +6,7 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.DeleteMapping;
 
 import eus.fpsanturtzilh.entity.Kolore_historialak;
 import eus.fpsanturtzilh.repository.KoloreHistorialakRepository;
@@ -47,13 +48,16 @@ public class KoloreHistorialakService {
         return koloreHistorialakRepository.save(koloreHistoriala);
     }
     
-    // Borrar historial de color
-    public Boolean deleteKoloreHistoriala(Long id) {
-        try {
-            koloreHistorialakRepository.deleteById(id);
+    public boolean softDeleteKoloreHistoriala(Long id) {
+        Optional<Kolore_historialak> optionalKoloreHistoriala = koloreHistorialakRepository.findById(id);
+        if (optionalKoloreHistoriala.isPresent()) {
+            Kolore_historialak koloreHistoriala = optionalKoloreHistoriala.get();
+            koloreHistoriala.setEzabatzeData(LocalDateTime.now());  // Marca como eliminada
+            koloreHistorialakRepository.save(koloreHistoriala);
             return true;
-        } catch (Exception e) {
-            return false;
         }
+        return false;
     }
+    
+
 }

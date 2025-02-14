@@ -70,7 +70,7 @@ public class Hitzorduak {
     private LocalDateTime eguneratzeData; // Fecha de última actualización del turno
 
     @Column(name = "ezabatze_data")
-    private LocalDateTime ezabatzeData; // Fecha de eliminación lógica del turno
+    private LocalDate ezabatzeData; // Fecha de eliminación lógica del turno
 
 
 }

@@ -4,6 +4,8 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import eus.fpsanturtzilh.entity.Zerbitzuak;
@@ -41,14 +43,15 @@ public class Zerbitzuak_controller {
     public Zerbitzuak patchZerbitzu(@PathVariable Long id, @RequestBody Zerbitzuak request) {
         return zerbitzuak_service.patchById(request, id);
     }
-
     @DeleteMapping("/{id}")
-    public String deleteZerbitzuakById(@PathVariable Long id) {
-        boolean ok = this.zerbitzuak_service.deleteZerbitzuak(id);
-        if (ok) {
-            return "Service with id: " + id + " deleted successfully.";
+    public ResponseEntity<String> softDeleteZerbitzuak(@PathVariable Long id) {
+        boolean deleted = zerbitzuak_service.softDeleteZerbitzuak(id);
+        if (deleted) {
+            return ResponseEntity.ok("Zerbitzuak with id: " + id + " marked as deleted.");
         } else {
-            return "Error: Could not delete service with id: " + id;
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Zerbitzuak not found.");
         }
     }
+
+
 }

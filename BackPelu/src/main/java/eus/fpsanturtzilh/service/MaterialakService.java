@@ -71,13 +71,16 @@ public class MaterialakService {
         return materialakRepository.save(materiala);
     }
     
-    // Borrar material
-    public Boolean deleteMateriala(Long id) {
-        try {
-            materialakRepository.deleteById(id);
+    public boolean softDeleteMateriala(Long id) {
+        Optional<Materialak> optionalMateriala = materialakRepository.findById(id);
+        if (optionalMateriala.isPresent()) {
+            Materialak materiala = optionalMateriala.get();
+            materiala.setEzabatzeData(LocalDateTime.now());  // Marca como eliminado
+            materialakRepository.save(materiala);
             return true;
-        } catch (Exception e) {
-            return false;
         }
+        return false;
     }
+    
+
 }

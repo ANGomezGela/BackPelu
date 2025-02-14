@@ -44,13 +44,16 @@ public class LangileakService {
         return langileakRepository.save(langilea);
     }
     
-    // Borrar empleado
-    public Boolean deleteLangilea(Long id) {
-        try {
-            langileakRepository.deleteById(id);
+    public boolean softDeleteLangilea(Long id) {
+        Optional<Langileak> optionalLangilea = langileakRepository.findById(id);
+        if (optionalLangilea.isPresent()) {
+            Langileak langilea = optionalLangilea.get();
+            langilea.setEzabatzeData(LocalDateTime.now());  // Marca como eliminado
+            langileakRepository.save(langilea);
             return true;
-        } catch (Exception e) {
-            return false;
         }
+        return false;
     }
+    
+
 }

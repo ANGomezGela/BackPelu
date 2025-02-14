@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -41,15 +43,14 @@ public class Produktu_mugimenduak_controller {
 	public Produktu_mugimenduak updateProduktuById(@RequestBody Produktu_mugimenduak request, Long id) {
 		return this.produktuak_Mugimendua_service.updateById(request, id);
 	}
-	
-	@DeleteMapping(path = "/{id}")
-	public String deleteUniversityById(@PathVariable("id") Long id) {
-		boolean ok = this.produktuak_Mugimendua_service.deleteproduktu_Mugimenduak(id);
-		if (ok = true) {
-			return "User with id: " + id + " Deleted";
-		} else {
-			return "Error";
-		}
-	}
+    @DeleteMapping("/{id}")
+    public ResponseEntity<String> softDeleteProduktuMugimenduak(@PathVariable Long id) {
+        boolean deleted = produktuak_Mugimendua_service.softDeleteProduktuMugimenduak(id);
+        if (deleted) {
+            return ResponseEntity.ok("Produktu mugimendua with id: " + id + " marked as deleted.");
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Produktu mugimendua not found.");
+        }
+    }
 
 }

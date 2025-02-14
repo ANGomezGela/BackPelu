@@ -4,6 +4,8 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import eus.fpsanturtzilh.entity.Produktuak;
@@ -44,10 +46,15 @@ public class Produktuak_controller {
     public Produktuak updateProduktu(@PathVariable Long id, @RequestBody Produktuak request) {
         return produktuakService.updateById(request, id);
     }
-
     @DeleteMapping("/{id}")
-    public String deleteProduktu(@PathVariable Long id) {
-        boolean ok = produktuakService.deleteProduktu(id);
-        return ok ? "Product with id: " + id + " Deleted" : "Error";
+    public ResponseEntity<String> softDeleteProduktu(@PathVariable Long id) {
+        boolean deleted = produktuakService.softDeleteProduktu(id);
+        if (deleted) {
+            return ResponseEntity.ok("Produktuak with id: " + id + " marked as deleted.");
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Produktuak not found.");
+        }
     }
+
+
 }

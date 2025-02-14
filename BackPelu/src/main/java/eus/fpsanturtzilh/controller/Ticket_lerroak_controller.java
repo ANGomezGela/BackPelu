@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -45,6 +47,15 @@ public class Ticket_lerroak_controller {
 	public Ticket_lerroak updateLerroById(@RequestBody Ticket_lerroak request, Long id) {
 		return this.ticket_lerroak_service.updateById(request, id);
 	}
+    @DeleteMapping("/{id}")
+    public ResponseEntity<String> softDeleteLerro(@PathVariable Long id) {
+        boolean deleted = ticket_lerroak_service.softDeleteLerro(id);
+        if (deleted) {
+            return ResponseEntity.ok("Ticket_lerroak with id: " + id + " marked as deleted.");
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Ticket_lerroak not found.");
+        }
+    }
 	
 	@DeleteMapping(path = "/{id}")
 	public String deleteLerroById(@PathVariable("id") Long id) {

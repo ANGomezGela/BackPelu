@@ -4,6 +4,8 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import eus.fpsanturtzilh.entity.Kolore_historialak;
@@ -36,10 +38,16 @@ public class KoloreHistorialakController {
     public Kolore_historialak updateKoloreHistoriala(@PathVariable Long id, @RequestBody Kolore_historialak request) {
         return koloreHistorialakService.updateById(request, id);
     }
-
+    
     @DeleteMapping("/{id}")
-    public String deleteKoloreHistoriala(@PathVariable Long id) {
-        boolean ok = koloreHistorialakService.deleteKoloreHistoriala(id);
-        return ok ? "Kolore historiala with id: " + id + " Deleted" : "Error";
+    public ResponseEntity<String> softDeleteKoloreHistoriala(@PathVariable Long id) {
+        boolean deleted = koloreHistorialakService.softDeleteKoloreHistoriala(id);
+        if (deleted) {
+            return ResponseEntity.ok("Kolore historiala with id: " + id + " marked as deleted.");
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Kolore historiala not found.");
+        }
     }
+
+
 }

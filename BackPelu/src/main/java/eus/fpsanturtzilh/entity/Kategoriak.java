@@ -22,9 +22,6 @@ public class Kategoriak {
     @Column(name = "izena", length = 100, nullable = false)
     private String izena; 
 
-    @Column(name = "mota", length = 100, nullable = false)
-    private String mota; 
-
     @Column(name = "sortze_data")
     private LocalDateTime sortzeData;
 

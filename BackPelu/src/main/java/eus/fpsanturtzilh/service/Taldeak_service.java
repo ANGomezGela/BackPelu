@@ -6,6 +6,7 @@ import eus.fpsanturtzilh.repository.Taldeak_repository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -29,9 +30,17 @@ public class Taldeak_service {
     public Taldeak saveOrUpdateGroup(Taldeak taldeak) {
         return taldeakRepository.save(taldeak);
     }
-
-    // Eliminar un grupo por código
-    public void deleteGroup(String kodea) {
-        taldeakRepository.deleteById(kodea);
+    
+    public boolean softDeleteGroup(String kodea) {
+        Optional<Taldeak> optionalTaldeak = taldeakRepository.findById(kodea);
+        if (optionalTaldeak.isPresent()) {
+            Taldeak taldeak = optionalTaldeak.get();
+            taldeak.setEzabatzeData(LocalDateTime.now());  // Marca como eliminado
+            taldeakRepository.save(taldeak);
+            return true;
+        }
+        return false;
     }
+
+
 }

@@ -2,6 +2,8 @@ package eus.fpsanturtzilh.controller;
 
 import eus.fpsanturtzilh.entity.Hitzorduak;
 import eus.fpsanturtzilh.service.Hitzorduak_service;
+
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -38,6 +40,17 @@ public class Hitzorduak_controller {
     public ResponseEntity<List<Hitzorduak>> getAll() {
         return ResponseEntity.ok(service.getAllHitzorduak());
     }
+    
+    @DeleteMapping("/{id}")
+    public ResponseEntity<String> softDeleteHitzordua(@PathVariable Long id) {
+        boolean deleted = service.softDeleteHitzordua(id);
+        if (deleted) {
+            return ResponseEntity.ok("Hitzordua with id: " + id + " marked as deleted.");
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Hitzordua not found.");
+        }
+    }
+
     
     //APP C# CHAT
     @GetMapping("/hoy")
