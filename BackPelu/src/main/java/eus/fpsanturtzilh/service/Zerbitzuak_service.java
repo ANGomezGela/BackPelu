@@ -10,27 +10,68 @@ import org.springframework.stereotype.Service;
 import eus.fpsanturtzilh.entity.Zerbitzuak;
 import eus.fpsanturtzilh.repository.Zerbitzuak_repository;
 
-
+/**
+ * {@link Zerbitzuak_service} klaseak zerbitzuen kudeaketa eskaintzen du.
+ * Klase honek zerbitzuen datuak kudeatzen ditu, zerbitzuak lortzea,
+ * gordetzea, eguneratzea, eguneratze partziala (patch) eta ezabatzea ahalbidetzen du.
+ *
+ * <p>Klase honek {@link Zerbitzuak_repository} erabiltzen du zerbitzuen datuak datu-basean kudeatzeko.</p>
+ *
+ * <p>Metoduen deskribapena:</p>
+ * <ul>
+ *   <li><strong>getZerbitzuak()</strong>: Zerbitzu guztiak lortzen ditu.</li>
+ *   <li><strong>saveZerbitzuak(Zerbitzuak servi)</strong>: Zerbitzu berri bat gordetzen du datu-basean.</li>
+ *   <li><strong>getById(Long id)</strong>: Zerbitzu bat bilatzen du IDaren bidez.</li>
+ *   <li><strong>patchById(Zerbitzuak request, Long id)</strong>: Zerbitzu baten datuak eguneratzen ditu, baina soilik beharrezkoak direnak.</li>
+ *   <li><strong>updateById(Zerbitzuak request, Long id)</strong>: Zerbitzu baten datuak eguneratzen ditu IDaren bidez.</li>
+ *   <li><strong>softDeleteZerbitzuak(Long id)</strong>: Zerbitzu bat ezabatzen du, baina ezabatze data ezartzen du soilik.</li>
+ * </ul>
+ * 
+ * @author [Zure Izena]
+ * @since [Data]
+ */
 @Service
 public class Zerbitzuak_service {
 	@Autowired
 	Zerbitzuak_repository zerbitzuak_repository;
 	
-	
-	//Gett
+	/**
+	 * Zerbitzu guztiak lortzen ditu.
+	 *
+	 * @return {@link ArrayList} Zerbitzuen zerrenda.
+	 */
 	public ArrayList<Zerbitzuak> getZerbitzuak(){
 		return (ArrayList<Zerbitzuak>) zerbitzuak_repository.findAll();
 	}
 	
-	//save
-	public Zerbitzuak saveZerbitzuak (Zerbitzuak servi) {
+	/**
+	 * Zerbitzu berri bat gordetzen du datu-basean.
+	 *
+	 * @param servi Gordetzeko zerbitzuaren informazioa.
+	 * @return {@link Zerbitzuak} Gordetako zerbitzua.
+	 */
+	public Zerbitzuak saveZerbitzuak(Zerbitzuak servi) {
 		return zerbitzuak_repository.save(servi);
 	}
 	
-	//Find por Id
-	public Optional<Zerbitzuak>getById(Long id){
+	/**
+	 * Zerbitzu bat bilatzen du IDaren bidez.
+	 *
+	 * @param id Zerbitzuaren IDa.
+	 * @return {@link Optional} Zerbitzu bilatzea, baldin badago.
+	 */
+	public Optional<Zerbitzuak> getById(Long id){
 		return zerbitzuak_repository.findById(id);
 	}
+	
+	/**
+	 * Zerbitzu baten datuak eguneratzen ditu, baina soilik zehaztutakoak (patch).
+	 * 
+	 * @param request Eguneratutako datuak.
+	 * @param id Zerbitzuaren IDa.
+	 * @return {@link Zerbitzuak} Eguneratutako zerbitzua.
+	 * @throws RuntimeException Si el servicio no se encuentra con el ID proporcionado.
+	 */
 	public Zerbitzuak patchById(Zerbitzuak request, Long id) {
 	    Optional<Zerbitzuak> optionalZerbitzu = zerbitzuak_repository.findById(id);
 
@@ -51,43 +92,48 @@ public class Zerbitzuak_service {
 	            existingZerbitzu.setKanpokoPrezioa(request.getKanpokoPrezioa());
 	        }
 
-	        existingZerbitzu.setEguneratzeData(LocalDateTime.now()); // Actualizar fecha de modificación
+	        existingZerbitzu.setEguneratzeData(LocalDateTime.now()); // Eguneratzearen data
 
 	        return zerbitzuak_repository.save(existingZerbitzu);
 	    } else {
-	        throw new RuntimeException("Servicio no encontrado con ID: " + id);
+	        throw new RuntimeException("Zerbitzua ez da aurkitu IDarekin: " + id);
 	    }
 	}
-
 	
-	//Update
-	public Zerbitzuak updateById(Zerbitzuak request, Long id){
+	/**
+	 * Zerbitzu baten datuak eguneratzen ditu IDaren bidez.
+	 *
+	 * @param request Eguneratutako zerbitzuaren datuak.
+	 * @param id Zerbitzuaren IDa.
+	 * @return {@link Zerbitzuak} Eguneratutako zerbitzua.
+	 */
+	public Zerbitzuak updateById(Zerbitzuak request, Long id) {
 		Zerbitzuak zerbitzuak = zerbitzuak_repository.findById(id).get();
 
-        // Actualizar campos
+        // Eguneratu nahi diren datuak
         zerbitzuak.setIzena(request.getIzena());
         zerbitzuak.setKategoriak(request.getKategoriak());
         zerbitzuak.setEtxekoPrezioa(request.getEtxekoPrezioa());
         zerbitzuak.setKanpokoPrezioa(request.getKanpokoPrezioa());
-        zerbitzuak.setEguneratzeData(LocalDateTime.now()); // Fecha de actualización
+        zerbitzuak.setEguneratzeData(LocalDateTime.now()); // Eguneratze data
 
-        // Guardar en la base de datos
         return zerbitzuak_repository.save(zerbitzuak);
-		
-			}
+	}
 	
-    public boolean softDeleteZerbitzuak(Long id) {
+	/**
+	 * Zerbitzu bat ezabatzen du, baina ezabatze data ezartzen du soilik (soft delete).
+	 * 
+	 * @param id Zerbitzuaren IDa.
+	 * @return {@code true} Zerbitzua ezabatzea lortu bada, {@code false} bestela.
+	 */
+	public boolean softDeleteZerbitzuak(Long id) {
         Optional<Zerbitzuak> optionalZerbitzuak = zerbitzuak_repository.findById(id);
         if (optionalZerbitzuak.isPresent()) {
             Zerbitzuak zerbitzuak = optionalZerbitzuak.get();
-            zerbitzuak.setEzabatzeData(LocalDateTime.now());  // Marca como eliminado
+            zerbitzuak.setEzabatzeData(LocalDateTime.now());  // Ezabatze data ezartzen du
             zerbitzuak_repository.save(zerbitzuak);
             return true;
         }
         return false;
     }
-
-	
-	
-
 }
